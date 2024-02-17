@@ -19,6 +19,10 @@ const requireAuth = async (req, res, next) => {
 
     next();
   } catch (err) {
+    if (err?.name === "TokenExpiredError") {
+      return next(ApiError.Unauthorized("Token expired"));
+    }
+    
     next(err);
     return;
   }
